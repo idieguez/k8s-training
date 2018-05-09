@@ -1,0 +1,4 @@
+apiVersion: v1                                                                  # API version to use.
+kind: Namespace                                                                 # Kubernetes object to create: a Namespace in our case.
+metadata:                                                                       # Data that helps uniquely identify the object.
+  name: exercise-01                                                                 # Name of the object.

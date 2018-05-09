@@ -1,0 +1,13 @@
+apiVersion: v1                                                                  # API version to use.
+kind: Service                                                                   # Kubernetes object to create: a Service in our case.
+metadata:                                                                       # Data that helps uniquely identify the object.
+  name: mariadb                                                                     # Name of the object.
+  namespace: exercise-01                                                            # Namespace where will stay the object.
+  labels:                                                                           # Key/value pairs that are attached to the object.
+    app: mariadb
+spec:                                                                           # Different on every K8s object. Describes the desired state for the object.
+  type: ClusterIP                                                                   # Service type: let us to expose a service outside of the cluster.
+  ports:
+  - port: 3306                                                                          # Indicates the port where this service should be served.
+  selector:                                                                         # The set of PODs targeted by our service.
+    app: mariadb                                                                        # We select the app linked to this service.

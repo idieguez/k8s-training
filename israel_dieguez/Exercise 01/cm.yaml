@@ -1,0 +1,8 @@
+apiVersion: v1                                                                  # API version to use.
+kind: ConfigMap                                                                 # Kubernetes object to create: a ConfigMap in our case.
+metadata:                                                                       # Data that helps uniquely identify the object.
+  name: app-config                                                                  # Name of the object.
+  namespace: exercise-01                                                            # Namespace where will stay the object.
+data:                                                                           # Environment variable declarations: key-value.
+  database-host: mariadb
+  database-name: wordpress_01

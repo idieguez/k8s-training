@@ -1,0 +1,43 @@
+apiVersion: extensions/v1beta1                                                  # API version to use.
+kind: Deployment                                                                # Kubernetes object to create: a Deployment in our case.
+metadata:                                                                       # Data that helps uniquely identify the object.
+  name: mariadb                                                                     # Name of the object.
+  namespace: exercise-01                                                            # Namespace where will stay the object.
+  labels:                                                                           # Key/value pairs that are attached to the object.
+    app: mariadb
+spec:                                                                           # Different on every K8s object. Describes the desired state for the object.
+  replicas: 2                                                                       # Specifies the number of desired PODs running at same time.
+  template:                                                                         # POD template. It has exactly the same schema as a POD, except it is nested and does not have an 'apiVersion' or 'kind'.
+    metadata:                                                                           # POD metadata: data that helps uniquely identify the POD.
+      name: mariadb                                                                         # Name of the POD.
+      labels:                                                                               # Key/value pairs that are attached to the POD.
+        app: mariadb
+    spec:                                                                               # POD specification: describes the desired state of the POD.
+      restartPolicy: Always                                                                 # Restoration policy when our POD stops or fails.
+      containers:                                                                           # The containers our POD will have and their properties.
+      - image: bitnami/mariadb:latest                                                           # Container image.
+        name: mariadb                                                                           # Container name.
+        env:                                                                                    # Environment variables for the container.
+        - name: MARIADB_DATABASE                                                                    # 1st environment variable.
+          valueFrom:
+            configMapKeyRef:                                                                            # The ConfigMap object (cm.yaml) provide the value of the env. var.
+              name: app-config
+              key: database-name
+        - name: MARIADB_USER                                                                        # 2nd environment variable.
+          valueFrom:
+            secretKeyRef:                                                                               # The Secret object provide the value of the env. var.
+              name: mariadb-credentials
+              key: user
+        - name: MARIADB_PASSWORD                                                                    # 3rd environment variable.
+          valueFrom:
+            secretKeyRef:                                                                               # The Secret object provide the value of the env. var.
+              name: mariadb-credentials
+              key: password
+        - name: MARIADB_ROOT_PASSWORD                                                               # 4th environment variable.
+          valueFrom:
+            secretKeyRef:                                                                               # The Secret object provide the value of the env. var.
+              name: mariadb-credentials
+              key: password
+        ports:                                                                                  #
+        - containerPort: 3306                                                                       #
+          name: mariadb

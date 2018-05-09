@@ -1,0 +1,13 @@
+apiVersion: v1                                                                  # API version to use.
+kind: Service                                                                   # Kubernetes object to create: a Service in our case.
+metadata:                                                                       # Data that helps uniquely identify the object.
+  name: wordpress                                                                   # Name of the object.
+  namespace: exercise-01                                                            # Namespace where will stay the object.
+  labels:                                                                           # Key/value pairs that are attached to the object.
+    app: wordpress
+spec:                                                                           # Different on every K8s object. Describes the desired state for the object.
+  type: LoadBalancer                                                                # Service type: let us to expose a service outside of the cluster.
+  ports:
+  - port: 80                                                                            # Indicates the port where this service should be served.
+  selector:                                                                         # The set of PODs targeted by our service.
+    app: wordpress                                                                      # We select the app linked to this service.

@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1                                                  # API version to use.
+kind: Ingress                                                                   # Kubernetes object to create: an Ingress in our case.
+metadata:                                                                       # Data that helps uniquely identify the object.
+  name: ingress                                                                     # Name of the object.
+  namespace: exercise-01                                                            # Namespace where will stay the object.
+  labels:
+    app: wordpress
+    type: frontend
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: cookie
+spec:                                                                           # Different on every K8s object. Describes the desired state for the object.
+  rules:                                                                            # Collection of rules that allow inbound connections to reach the cluster services.
+  - host: wordpress-exercise-01.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: wordpress
+          servicePort: 80
